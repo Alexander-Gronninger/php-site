@@ -87,8 +87,11 @@ function displayFullPost(post, comments) {
       });
   }
 
+  // Comment section
   let commentsContainer = document.getElementById("commentsContainer");
   commentsContainer.innerHTML = "";
+
+  // Display comments
   comments.forEach((comment) => {
     let commentDiv = document.createElement("div");
     commentDiv.className = "bg-gray-100 p-2 mb-2 rounded";
@@ -128,6 +131,24 @@ function displayFullPost(post, comments) {
 
     commentsContainer.appendChild(commentDiv);
   });
+
+  // Add comment form
+  if (loggedInUserId) {
+    let commentForm = `
+      <div class="mt-4">
+        <textarea id="newCommentContent" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Add a comment..."></textarea>
+        <button id="submitCommentButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Submit Comment</button>
+      </div>
+    `;
+    commentsContainer.insertAdjacentHTML("afterend", commentForm);
+
+    document
+      .getElementById("submitCommentButton")
+      .addEventListener("click", function () {
+        let commentContent = document.getElementById("newCommentContent").value;
+        submitComment(post.id, commentContent);
+      });
+  }
 }
 
 function hideFullPost() {
@@ -172,6 +193,29 @@ function deletePost(postId) {
       if (data.success) {
         alert("Post deleted successfully");
         hideFullPost();
+      } else {
+        alert("Error: " + data.error);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function submitComment(postId, content) {
+  let formData = new FormData();
+  formData.append("post_id", postId);
+  formData.append("content", content);
+
+  fetch("../src/fetches/handleAddComment.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("Comment added successfully");
+        fetchPostDetails(postId); // Refresh post details after adding comment
       } else {
         alert("Error: " + data.error);
       }
