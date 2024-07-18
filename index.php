@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +21,13 @@
 <body>
     <div class="bg-gray-300 max-w-[720px] m-auto p-2">
         <h1 class="m-auto max-w-fit bold text-xl">MyMediaSite</h1>
+
+        <div class="flex flex-row my-4 ml-auto w-fit">
+            <?php include 'src/pages/login_modal.php'; ?>
+            <div class="w-4"></div>
+            <?php include 'src/pages/user_page.php'; ?>
+            <?php include 'src/pages/register_modal.php'; ?>
+        </div>
 
 
 <form id="searchForm">
@@ -47,5 +58,6 @@
         <div id="fullPostContent"></div>
         <div id="commentsContainer"></div>
     </div>
+</div>
 </body>
 </html>
