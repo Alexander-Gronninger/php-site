@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-// Define the base directory
+// Define the base directory for includes
 define('BASE_DIR', __DIR__ . '/../utils/');
 
 // Include the database connection file
 require_once BASE_DIR . 'db_connection.php';
 
 // Query to retrieve categories
-$sql = "SELECT name FROM categories";
+$sql = "SELECT id, name FROM categories";
 
 try {
     // Prepare and execute the query

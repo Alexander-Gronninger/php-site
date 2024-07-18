@@ -8,6 +8,7 @@ session_start();
     <?php include 'src/partials/header.php'; ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="src/functions/clearPosts.js"></script>
+    <script src="src/functions/changeLoginToLogoutButton.js"></script>
     <script src="src/functions/fetchPosts.js"></script>
     <script src="src/functions/applyFilters.js"></script>
     <script src="src/functions/fetchCategories.js"></script>
@@ -19,6 +20,12 @@ session_start();
     <script src="src/partials/postDetails.js"></script>
     <script>
         const loggedInUserId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
+        console.log(loggedInUserId);
+        document.addEventListener('DOMContentLoaded', () => {
+    if (loggedInUserId) {
+        changeLoginToLogoutButton();
+    }
+});
     </script>
 
 </head>
@@ -32,6 +39,7 @@ session_start();
             <?php include 'src/pages/user_page.php'; ?>
             <?php include 'src/pages/register_modal.php'; ?>
         </div>
+        <?php include 'src/pages/createPost.php'; ?>
 
 
 <form id="searchForm">

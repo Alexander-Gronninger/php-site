@@ -65,11 +65,7 @@
         console.log(data);
         if (data.success) {
             // Update UI to show logged in state
-            document.getElementById('loginButton').textContent = 'Logout';
-            registerButton.style.display = 'none';
-            userButton.style.display = "block";
-            document.getElementById('loginButton').removeEventListener('click', showModal);
-            document.getElementById('loginButton').addEventListener('click', logout);
+            changeLoginToLogoutButton()
 
             // Close the modal
             document.getElementById('loginModal').classList.add('hidden');
