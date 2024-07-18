@@ -132,22 +132,25 @@ function displayFullPost(post, comments) {
     commentsContainer.appendChild(commentDiv);
   });
 
-  // Add comment form
+  // Add comment form only if it doesn't already exist
   if (loggedInUserId) {
-    let commentForm = `
-      <div class="mt-4">
-        <textarea id="newCommentContent" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Add a comment..."></textarea>
-        <button id="submitCommentButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Submit Comment</button>
-      </div>
-    `;
-    commentsContainer.insertAdjacentHTML("afterend", commentForm);
+    if (!document.getElementById("commentFormContainer")) {
+      let commentForm = `
+        <div id="commentFormContainer" class="mt-4">
+          <textarea id="newCommentContent" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Add a comment..."></textarea>
+          <button id="submitCommentButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Submit Comment</button>
+        </div>
+      `;
+      commentsContainer.insertAdjacentHTML("beforeend", commentForm);
 
-    document
-      .getElementById("submitCommentButton")
-      .addEventListener("click", function () {
-        let commentContent = document.getElementById("newCommentContent").value;
-        submitComment(post.id, commentContent);
-      });
+      document
+        .getElementById("submitCommentButton")
+        .addEventListener("click", function () {
+          let commentContent =
+            document.getElementById("newCommentContent").value;
+          submitComment(post.id, commentContent);
+        });
+    }
   }
 }
 

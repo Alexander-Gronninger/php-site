@@ -12,14 +12,18 @@ function appendPosts(posts) {
       <div class="text-sm text-gray-400 bold">
         Posted on ${post.created_at}
       </div>
+
       <div class="relative text-sm border-solid border-black border-[1px] rounded-lg h-fit w-fit uppercase p-[2px] ${getCategoryClass(
         post.category_name
       )} group">
-        ${post.category_name}
-        <span class="absolute bottom-[125%] left-1/2 transform -translate-x-1/2 bg-black text-white text-center rounded-md py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          ${post.category_description}
-        </span>
-      </div>
+  ${post.category_name}
+  <!-- Tooltip/Description -->
+  <span class="absolute bottom-[125%] left-1/2 transform -translate-x-1/2 bg-black text-white text-center rounded-md py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+    ${post.category_description}
+  </span>
+</div>
+
+
       <div class="post-content">
         <p class="text-gray-800">${truncatePostContent(post.content)}</p>
         ${
