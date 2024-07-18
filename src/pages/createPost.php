@@ -35,9 +35,10 @@
   </div>
 </div>
 
-<!-- Include the JavaScript file -->
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  // get var for elements
   const createPostButton = document.getElementById("createPostButton");
   const createPostModal = document.getElementById("createPostModal");
   const closeModalButton = document.getElementById("closeModalButton");
@@ -55,14 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchCategories(); // Fetch categories when the modal is opened
   });
 
+  // hide modal
   closeModalButton.addEventListener("click", () => {
     createPostModal.classList.add("hidden");
   });
 
+  // cancel creation
   cancelPostButton.addEventListener("click", () => {
     createPostModal.classList.add("hidden");
   });
 
+  // submit post
   createPostForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -86,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
+  // fetch categories and append to category dropdown, could probably DRY the category dropdown but vanilla javascript sucks
   function fetchCategories() {
     fetch("src/fetches/fetch_categories.php")
       .then(response => response.json())

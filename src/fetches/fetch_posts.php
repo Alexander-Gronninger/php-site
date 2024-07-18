@@ -11,7 +11,7 @@ require_once BASE_DIR . 'db_connection.php';
 
 // Initialize variables
 $offset = isset($_GET['offset']) && is_numeric($_GET['offset']) ? $_GET['offset'] : 0; // Offset for posts
-$limit = 5; // Number of posts to load per batch
+$limit = 5; // Number of posts to load per batch, offset on client side is set to this value
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest'; // Sorting type (default: newest)
 $category = isset($_GET['category']) && $_GET['category'] !== 'all' ? $_GET['category'] : null; // Category filter
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : null; // Search term

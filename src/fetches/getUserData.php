@@ -23,7 +23,7 @@ try {
     $stmt->execute();
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch user comments with post_id
+    // Fetch user comments
     $sql = "SELECT id, content, post_id FROM comments WHERE user_id = :user_id AND is_deleted = 0";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);

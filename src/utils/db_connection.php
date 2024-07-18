@@ -1,5 +1,5 @@
 <?php
-// db_connection.php
+/* DRY */
 
 $host = 'localhost';
 $db = 'myphpproject';

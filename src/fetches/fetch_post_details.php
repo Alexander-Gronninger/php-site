@@ -58,16 +58,11 @@ try {
         unset($comment['is_deleted'], $comment['delete_reason']);
     }
 
-    // Ensure no other output
-    ob_clean();
-
     // Return JSON response
     header('Content-Type: application/json');
     echo json_encode(['post' => $post, 'comments' => $comments]);
 
 } catch (PDOException $e) {
-    // Clean the output buffer and display an error message as JSON
-    ob_clean();
     header('Content-Type: application/json');
     echo json_encode(['error' => $e->getMessage()]);
 }

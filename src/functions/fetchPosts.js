@@ -1,5 +1,3 @@
-// fetchPosts.js
-
 let offset = 0;
 let limit = 0;
 let isLoading = false;
@@ -7,10 +5,11 @@ let currentSort = "newest";
 let currentCategory = "all";
 
 function fetchPosts() {
-  if (isLoading) return;
+  if (isLoading) return; // if fetch is already in progress, do nothing
   isLoading = true;
   showLoadingSpinner();
 
+  // set search related properties
   let searchQuery = document.getElementById("searchInput").value;
   let searchThroughTitle = document.getElementById("searchTitleCheckbox")
     .checked
@@ -52,17 +51,20 @@ function fetchPosts() {
         console.log("no posts available");
         window.removeEventListener("scroll", handleScroll);
         showLoadingSpinner();
-        //if postContainer has children, then there are posts
+
+        // set vars for elements
         let postContainer = document.getElementById("postContainer");
         let loadingElement = document.getElementById("loading");
+
+        // error handle in case loading element isnt in DOM
         if (loadingElement) {
+          // if the user has searched, and the result is no posts, then no posts match search query
           if (searchQuery && postContainer.childElementCount == 0) {
             loadingElement.innerHTML =
               "No posts match search query: " + searchQuery;
-          } else if (postContainer.childElementCount > 0) {
-            loadingElement.innerHTML = "No more posts available";
+            // if there are posts then
           } else {
-            loadingElement.innerHTML = "No more posts.";
+            loadingElement.innerHTML = "No more posts available.";
           }
         } else {
           console.error("Loading element not found.");

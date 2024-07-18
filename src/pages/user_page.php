@@ -1,5 +1,7 @@
+<!-- modal button -->
 <button id="userButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 hidden">User Page</button>
 
+<!-- modal -->
 <div id="userPage" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen px-4">
         <div class="bg-white p-8 rounded shadow-lg max-w-md w-full">
@@ -71,6 +73,7 @@
         });
     }
 
+    /* edit password on button click */
     document.getElementById('editAccountForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
@@ -91,6 +94,7 @@
         });
     });
 
+    /* delete account on click */
     document.getElementById('deleteAccountForm').addEventListener('submit', function(event) {
         event.preventDefault();
         fetch('src/fetches/handleDeleteAccount.php', {

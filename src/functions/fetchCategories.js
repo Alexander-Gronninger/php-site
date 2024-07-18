@@ -1,4 +1,3 @@
-// categories.js
 function fetchCategories() {
   let xhr = new XMLHttpRequest();
   xhr.open("GET", "../src/fetches/fetch_categories.php", true);

@@ -5,7 +5,8 @@ function clearPosts() {
   // if clearPosts is executed, then we must reset offset, otherwise the fetchPosts function will act as if there are posts already on the site
   offset = 0;
 
-  // to account for an issue where an empty search results in scrolling not working. The search button always executes clearPosts
+  // if the user has reached end of posts, then the event listener is removed
+  // this ensures it is readded when posts are cleared, after removing it once just in case its already there
   window.removeEventListener("scroll", handleScroll);
   window.addEventListener("scroll", handleScroll);
 

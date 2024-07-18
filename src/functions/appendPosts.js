@@ -1,5 +1,4 @@
-// appendPosts.js
-
+// receives an array of posts and spits it out in HTML
 function appendPosts(posts) {
   let postContainer = document.getElementById("postContainer");
 
@@ -21,9 +20,7 @@ function appendPosts(posts) {
   <span class="absolute bottom-[125%] left-1/2 transform -translate-x-1/2 bg-black text-white text-center rounded-md py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
     ${post.category_description}
   </span>
-</div>
-
-
+  </div>
       <div class="post-content">
         <p class="text-gray-800">${truncatePostContent(post.content)}</p>
         ${

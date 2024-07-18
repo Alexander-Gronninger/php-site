@@ -1,12 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    http_response_code(403); // Forbidden
-    echo json_encode(['error' => 'User not logged in']);
-    exit;
-}
-
 // Define the base directory
 define('BASE_DIR', __DIR__ . '/../utils/');
 
@@ -16,7 +10,7 @@ require_once BASE_DIR . 'db_connection.php';
 $userId = $_SESSION['user_id'];
 
 try {
-    // Begin a transaction
+    // Begin a transaction - needed cus multiple tables are changed at the same time
     $pdo->beginTransaction();
 
     // Delete related entries from banned_users, comments, and posts tables

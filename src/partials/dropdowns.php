@@ -1,3 +1,4 @@
+<!-- main page sort by and category dropdowns -->
 <div class="flex flex-row m-2 justify-around">
     <div class="w-fit text-nowrap h-fit flex flex-row space-x-4">
         <label for="sortDropdown" class="block text-sm font-medium text-gray-700 text-center w-fit h-10 leading-10">Sort By:</label>

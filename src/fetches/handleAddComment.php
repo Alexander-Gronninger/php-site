@@ -1,13 +1,7 @@
 <?php
-// handleAddComment.php
-
 session_start();
 
-// Display errors for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Define the base directory for includes
+// Define the base directory
 define('BASE_DIR', __DIR__ . '/../utils/');
 
 // Include the database connection file

@@ -1,8 +1,5 @@
 <?php
 session_start();
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 // Define the base directory for includes
 define('BASE_DIR', __DIR__ . '/../utils/');

@@ -1,5 +1,6 @@
-// postDetails.js
+/* all the functions for post details */
 
+/* fetch a posts details */
 function fetchPostDetails(postId) {
   showLoadingSpinner();
   let xhr = new XMLHttpRequest();
@@ -32,6 +33,7 @@ function fetchPostDetails(postId) {
   xhr.send();
 }
 
+/* modal for displaying the post, and edit etc buttons if user is author */
 function displayFullPost(post, comments) {
   document.getElementById("postContainer").classList.add("hidden");
   document.getElementById("fullPostContainer").classList.remove("hidden");
@@ -132,8 +134,9 @@ function displayFullPost(post, comments) {
     commentsContainer.appendChild(commentDiv);
   });
 
-  // Add comment form only if it doesn't already exist
+  /* if logged in then you may comment */
   if (loggedInUserId) {
+    // Add comment form only if it doesn't already exist
     if (!document.getElementById("commentFormContainer")) {
       let commentForm = `
         <div id="commentFormContainer" class="mt-4">
@@ -159,6 +162,7 @@ function hideFullPost() {
   document.getElementById("postContainer").classList.remove("hidden");
 }
 
+/* various post change functions */
 function savePostChanges(postId, editedTitle, editedContent) {
   let formData = new FormData();
   formData.append("post_id", postId);

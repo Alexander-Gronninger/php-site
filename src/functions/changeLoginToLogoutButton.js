@@ -1,3 +1,4 @@
+// the code is used in multiple places, dont repeat yourself(DRY)
 function changeLoginToLogoutButton() {
   document.getElementById("loginButton").textContent = "Logout";
   registerButton.style.display = "none";

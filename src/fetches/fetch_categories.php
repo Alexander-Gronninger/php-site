@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Define the base directory for includes
+// Define the base directory
 define('BASE_DIR', __DIR__ . '/../utils/');
 
 // Include the database connection file

@@ -14,7 +14,7 @@ session_start();
     <script src="src/functions/fetchCategories.js"></script>
     <script src="src/functions/spinner.js"></script>
     <script src="src/functions/handleScroll.js"></script>
-    <script src="src/functions/postList.js"></script>
+    <script src="src/functions/appendPosts.js"></script>
     <script src="src/functions/getCategoryClass.js"></script>
     <script src="src/functions/initialize.js"></script>
     <script src="src/partials/postDetails.js"></script>
@@ -34,14 +34,18 @@ session_start();
         <h1 class="m-auto max-w-fit bold text-xl">MyMediaSite</h1>
 
         <div class="flex flex-row my-4 ml-auto w-fit">
+            <!-- login button and modal -->
             <?php include 'src/pages/login_modal.php'; ?>
+            <!-- distance between buttons -->
             <div class="w-4"></div>
+            <!-- user button and modal -->
             <?php include 'src/pages/user_page.php'; ?>
+            <!-- register account button and modal -->
             <?php include 'src/pages/register_modal.php'; ?>
         </div>
         <?php include 'src/pages/createPost.php'; ?>
 
-
+<!-- search for posts -->
 <form id="searchForm">
     <div>
         <input type="text" id="searchInput" placeholder="Search...">
@@ -57,7 +61,7 @@ session_start();
     <!-- Sort and Category dropdowns -->
     <?php include 'src/partials/dropdowns.php'; ?>
 
-    <!-- Posts will be dynamically added here -->
+    <!-- Posts will be from fetching added here -->
      <div>
          <div id="postContainer">
     </div>

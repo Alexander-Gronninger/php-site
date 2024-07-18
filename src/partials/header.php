@@ -1,3 +1,4 @@
+<!-- header, kind of, just really cba to look at vanilla css so here it goes -->
 <meta charset="UTF-8">
 <title>MySocialMediaSite</title>
 <script src="https://cdn.tailwindcss.com"></script>

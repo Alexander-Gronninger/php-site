@@ -59,13 +59,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
             document.getElementById('registerModal').classList.add('hidden');
             
             // Update UI for logged-in state
-            document.getElementById('loginButton').textContent = 'Logout';
-            registerButton.style.display = 'none';
-            userButton.style.display = "block";
-            document.getElementById('loginButton').removeEventListener('click', showModal);
-            document.getElementById('loginButton').addEventListener('click', logout);
-
-            // You can update any other UI elements or state here as needed
+            changeLoginToLogoutButton()
         } else {
             alert('Registration failed: ' + data.error);
         }

@@ -3,6 +3,7 @@
     Login
 </button>
 
+<!-- login modal -->
 <div id="loginModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen px-4">
         <div class="bg-white p-8 rounded shadow-lg max-w-md w-full">
