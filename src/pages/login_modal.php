@@ -97,15 +97,20 @@
     }
 
     function logout() {
-        // Implement logout functionality (e.g., clear session, update UI)
-        // For now, just log to console
-        console.log('Logging out');
-        
-        // Update UI to show logged out state
-        document.getElementById('loginButton').textContent = 'Login';
-        registerButton.style.display = 'block';
-        userButton.style.display = "none";
-        document.getElementById('loginButton').removeEventListener('click', logout);
-        document.getElementById('loginButton').addEventListener('click', showModal);
+        // Send AJAX request to handlelogout.php
+        fetch('../src/fetches/handlelogout.php', {
+            method: 'GET'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            window.location.href = '../../index.php'; // Redirect to the home page after logging out
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            // Show error message to the user
+            alert('An error occurred while trying to log out. Please try again later.');
+        });
     }
 </script>

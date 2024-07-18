@@ -39,37 +39,45 @@
     </div>
 
     <script>
-        
-        // JavaScript to show/hide register modal
-        document.getElementById('closeRegisterModal').addEventListener('click', function() {
+    // JavaScript to show/hide register modal
+document.getElementById('closeRegisterModal').addEventListener('click', function() {
+    document.getElementById('registerModal').classList.add('hidden');
+});
+
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    fetch('src/fetches/handleRegister.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Registration successful and you are now logged in');
             document.getElementById('registerModal').classList.add('hidden');
-        });
+            
+            // Update UI for logged-in state
+            document.getElementById('loginButton').textContent = 'Logout';
+            registerButton.style.display = 'none';
+            userButton.style.display = "block";
+            document.getElementById('loginButton').removeEventListener('click', showModal);
+            document.getElementById('loginButton').addEventListener('click', logout);
 
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+            // You can update any other UI elements or state here as needed
+        } else {
+            alert('Registration failed: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 
-            const formData = new FormData(this);
-            fetch('src/fetches/handleRegister.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Registration successful');
-                    document.getElementById('registerModal').classList.add('hidden');
-                } else {
-                    alert('Registration failed: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-
-        // Show register modal when registerButton is clicked
-        document.getElementById('registerButton').addEventListener('click', function() {
-            document.getElementById('registerModal').classList.remove('hidden');
-            document.getElementById('registerUsername').focus(); // Optional: Focus on username input
-        });
+// Show register modal when registerButton is clicked
+document.getElementById('registerButton').addEventListener('click', function() {
+    document.getElementById('registerModal').classList.remove('hidden');
+    document.getElementById('registerUsername').focus(); // Optional: Focus on username input
+});
     </script>

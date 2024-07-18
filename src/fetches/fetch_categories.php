@@ -1,19 +1,16 @@
 <?php
 session_start();
-// Database connection details
-$host = 'localhost';
-$dbname = 'myphpproject';
-$username = 'root';
-$password = 'dinmor1234';
 
-// PDO connection
+// Define the base directory
+define('BASE_DIR', __DIR__ . '/../utils/');
+
+// Include the database connection file
+require_once BASE_DIR . 'db_connection.php';
+
+// Query to retrieve categories
+$sql = "SELECT name FROM categories";
+
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Query to retrieve categories
-    $sql = "SELECT name FROM categories";
-
     // Prepare and execute the query
     $stmt = $pdo->query($sql);
 
@@ -25,6 +22,8 @@ try {
     echo json_encode(['categories' => $categories]);
 
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    // Handle any errors that occur during the query execution
+    http_response_code(500); // Set HTTP response code to 500 for server errors
+    echo json_encode(['error' => 'Query failed: ' . $e->getMessage()]);
 }
 ?>

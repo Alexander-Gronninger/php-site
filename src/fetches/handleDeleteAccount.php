@@ -1,32 +1,58 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
     http_response_code(403); // Forbidden
     echo json_encode(['error' => 'User not logged in']);
     exit;
 }
 
-$host = 'localhost';
-$dbname = 'myphpproject';
-$dbUsername = 'root';
-$dbPassword = 'dinmor1234';
+// Define the base directory
+define('BASE_DIR', __DIR__ . '/../utils/');
+
+// Include the database connection file
+require_once BASE_DIR . 'db_connection.php';
+
 $userId = $_SESSION['user_id'];
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $dbUsername, $dbPassword);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Begin a transaction
+    $pdo->beginTransaction();
 
-    // Soft delete the user account
-    $sql = "UPDATE users SET is_deleted = 1 WHERE id = :user_id";
-    $stmt = $pdo->prepare($sql);
+    // Delete related entries from banned_users, comments, and posts tables
+    $sqlDeleteBannedUsers = "DELETE FROM banned_users WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($sqlDeleteBannedUsers);
     $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
     $stmt->execute();
 
-    // Also, you might want to log the user out after deleting the account
+    $sqlDeleteComments = "DELETE FROM comments WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($sqlDeleteComments);
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $sqlDeletePosts = "DELETE FROM posts WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($sqlDeletePosts);
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Finally, delete the user from the users table
+    $sqlDeleteUser = "DELETE FROM users WHERE id = :user_id";
+    $stmt = $pdo->prepare($sqlDeleteUser);
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Commit the transaction
+    $pdo->commit();
+
+    // Log the user out after deleting the account
     session_destroy();
 
+    // Return success response
     echo json_encode(['success' => true]);
+
 } catch (PDOException $e) {
+    // Rollback the transaction if there is an error
+    $pdo->rollBack();
     http_response_code(500); // Internal Server Error
     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 }

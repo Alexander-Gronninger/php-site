@@ -4,11 +4,11 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Database connection details
-$host = 'localhost';
-$dbname = 'myphpproject';
-$dbUsername = 'root';
-$dbPassword = 'dinmor1234';
+// Define the base directory for includes
+define('BASE_DIR', __DIR__ . '/../utils/');
+
+// Include the database connection file
+require_once BASE_DIR . 'db_connection.php';
 
 // Get username and password from POST request
 $username = isset($_POST['username']) ? trim($_POST['username']) : '';
@@ -22,10 +22,6 @@ if (empty($username) || empty($password)) {
 }
 
 try {
-    // PDO connection
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $dbUsername, $dbPassword);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Query to fetch user details
     $sql = "SELECT id, username, password, role FROM users WHERE username = :username AND is_deleted = 0 AND is_banned = 0";
     $stmt = $pdo->prepare($sql);
@@ -44,8 +40,6 @@ try {
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'message' => 'Login successful']);
 
-        error_log($_SESSION['user_id']);
-        error_log($_SESSION['username']);
     } else {
         // Return JSON response indicating login failure
         http_response_code(401); // Unauthorized

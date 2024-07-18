@@ -16,7 +16,11 @@ session_start();
     <script src="src/functions/postList.js"></script>
     <script src="src/functions/getCategoryClass.js"></script>
     <script src="src/functions/initialize.js"></script>
-    <script src="src/functions/postDetails.js"></script>
+    <script src="src/partials/postDetails.js"></script>
+    <script>
+        const loggedInUserId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
+    </script>
+
 </head>
 <body>
     <div class="bg-gray-300 max-w-[720px] m-auto p-2">

@@ -1,10 +1,13 @@
 <?php
 session_start();
-// Database connection details
-$host = 'localhost';
-$dbname = 'myphpproject';
-$username = 'root';
-$password = 'dinmor1234';
+
+// Define the base directory
+define('BASE_DIR', __DIR__ . '/../utils/');
+
+// Include the database connection file
+require_once BASE_DIR . 'db_connection.php';
+
+
 
 // Initialize variables
 $offset = isset($_GET['offset']) && is_numeric($_GET['offset']) ? $_GET['offset'] : 0; // Offset for posts
@@ -30,55 +33,51 @@ switch ($sort) {
         break;
 }
 
-// PDO connection
+// Query to retrieve posts with pagination and join with categories
+$sql = "SELECT posts.id, posts.title, posts.content, posts.created_at, users.username as author, categories.name as category_name, categories.description as category_description
+        FROM posts
+        JOIN categories ON posts.category_id = categories.id
+        JOIN users ON posts.user_id = users.id";
+
+$whereClauses = [];
+$params = [];
+
+if ($category) {
+    $whereClauses[] = "categories.name = :category";
+    $params[':category'] = $category;
+}
+
+if ($searchTerm) {
+    $searchTerm = "%{$searchTerm}%";
+    
+    // Build search conditions based on user preferences
+    $searchConditions = [];
+    if ($searchTitle) {
+        $searchConditions[] = "posts.title LIKE :search_title";
+        $params[':search_title'] = $searchTerm;
+    }
+    if ($searchContent) {
+        $searchConditions[] = "posts.content LIKE :search_content";
+        $params[':search_content'] = $searchTerm;
+    }
+    if ($searchAuthor) {
+        $searchConditions[] = "users.username LIKE :search_author";
+        $params[':search_author'] = $searchTerm;
+    }
+    
+    // Combine search conditions with OR operator
+    if (!empty($searchConditions)) {
+        $whereClauses[] = "(" . implode(" OR ", $searchConditions) . ")";
+    }
+}
+
+if (!empty($whereClauses)) {
+    $sql .= " WHERE " . implode(" AND ", $whereClauses);
+}
+
+$sql .= " $orderBy LIMIT :limit OFFSET :offset";
+
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Query to retrieve posts with pagination and join with categories
-    $sql = "SELECT posts.id, posts.title, posts.content, posts.created_at, users.username as author, categories.name as category_name, categories.description as category_description
-            FROM posts
-            JOIN categories ON posts.category_id = categories.id
-            JOIN users ON posts.user_id = users.id";
-
-    $whereClauses = [];
-    $params = [];
-
-    if ($category) {
-        $whereClauses[] = "categories.name = :category";
-        $params[':category'] = $category;
-    }
-
-    if ($searchTerm) {
-        $searchTerm = "%{$searchTerm}%";
-        
-        // Build search conditions based on user preferences
-        $searchConditions = [];
-        if ($searchTitle) {
-            $searchConditions[] = "posts.title LIKE :search_title";
-            $params[':search_title'] = $searchTerm;
-        }
-        if ($searchContent) {
-            $searchConditions[] = "posts.content LIKE :search_content";
-            $params[':search_content'] = $searchTerm;
-        }
-        if ($searchAuthor) {
-            $searchConditions[] = "users.username LIKE :search_author";
-            $params[':search_author'] = $searchTerm;
-        }
-        
-        // Combine search conditions with OR operator
-        if (!empty($searchConditions)) {
-            $whereClauses[] = "(" . implode(" OR ", $searchConditions) . ")";
-        }
-    }
-
-    if (!empty($whereClauses)) {
-        $sql .= " WHERE " . implode(" AND ", $whereClauses);
-    }
-
-    $sql .= " $orderBy LIMIT :limit OFFSET :offset";
-
     // Prepare and execute the query
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
@@ -96,6 +95,8 @@ try {
     echo json_encode(['limit' => $limit, 'posts' => $posts]);
 
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    // Handle errors and output as JSON
+    header('Content-Type: application/json');
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>

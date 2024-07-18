@@ -1,6 +1,11 @@
 <?php
 session_start();
-error_log($_SESSION['user_id']);
+
+// Define the base directory
+define('BASE_DIR', __DIR__ . '/../utils/');
+
+// Include the database connection file
+require_once BASE_DIR . 'db_connection.php';
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(403); // Forbidden
@@ -8,17 +13,9 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-
-$host = 'localhost';
-$dbname = 'myphpproject';
-$dbUsername = 'root';
-$dbPassword = 'dinmor1234';
 $userId = $_SESSION['user_id'];
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $dbUsername, $dbPassword);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Fetch user posts
     $sql = "SELECT id, title FROM posts WHERE user_id = :user_id AND is_deleted = 0";
     $stmt = $pdo->prepare($sql);
@@ -33,6 +30,7 @@ try {
     $stmt->execute();
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Return JSON response
     echo json_encode(['posts' => $posts, 'comments' => $comments]);
 } catch (PDOException $e) {
     http_response_code(500); // Internal Server Error
