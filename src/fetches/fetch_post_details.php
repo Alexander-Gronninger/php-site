@@ -32,6 +32,7 @@ try {
 
     // Fetch the comments for the post
     $sql = "SELECT 
+            comments.id,
             comments.content, 
             comments.created_at, 
             users.id as author_id,

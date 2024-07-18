@@ -3,8 +3,11 @@
 
 session_start();
 
+// Define the base directory for includes
+define('BASE_DIR', __DIR__ . '/../utils/');
+
 // Include the database connection file
-require_once '../src/utils/db_connection.php'; // Adjust the path if necessary
+require_once BASE_DIR . 'db_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION['user_id'])) {
