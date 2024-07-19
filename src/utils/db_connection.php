@@ -1,10 +1,10 @@
 <?php
 /* DRY */
 
-$host = 'localhost';
-$db = 'myphpproject';
-$user = 'root';
-$pass = 'dinmor1234';
+$host = '';
+$db = '';
+$user = '';
+$pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
