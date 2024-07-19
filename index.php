@@ -17,7 +17,7 @@ session_start();
     <script src="src/functions/appendPosts.js"></script>
     <script src="src/functions/getCategoryClass.js"></script>
     <script src="src/functions/initialize.js"></script>
-    <script src="src/partials/postDetails.js"></script>
+    <script src="src/functions/postDetails.js"></script>
     <script>
         const loggedInUserId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
         console.log(loggedInUserId);
